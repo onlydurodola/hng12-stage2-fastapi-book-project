@@ -1,13 +1,12 @@
 name: CD Pipeline
 
 on:
-  pull_request:
+  push:
     branches:
       - main
 
 jobs:
   deploy:
-    if: github.event.pull_request.merged == true  # Ensures it runs only after a PR merge
     name: deploy  # Job name must be exactly "deploy"
     runs-on: ubuntu-latest
 
