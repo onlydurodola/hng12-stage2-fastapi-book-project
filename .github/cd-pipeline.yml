@@ -1,0 +1,34 @@
+name: CD Pipeline
+
+on:
+  pull_request:
+    types: [closed]
+    branches: [main]
+
+jobs:
+  deploy:
+    if: github.event.pull_request.merged == true  # Ensures it runs only after a PR merge
+    name: deploy  # Job name must be exactly "deploy"
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Deploy to EC2
+        uses: appleboy/ssh-action@master
+        with:
+          host: ${{ secrets.EC2_HOST }}
+          username: ${{ secrets.EC2_USERNAME }}
+          key: ${{ secrets.EC2_SSH_KEY }}
+          script: |
+            mkdir -p /home/${{ secrets.EC2_USERNAME }}/app
+            cd /home/${{ secrets.EC2_USERNAME }}/app
+
+            docker compose down || true
+
+            rm -rf hng12-stage2-fastapi-book-project
+            git clone https://github.com/onlydurodola/hng12-stage2-fastapi-book-project.git
+            cd hng12-stage2-fastapi-book-project
+
+            docker compose up --build -d
