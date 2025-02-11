@@ -7,7 +7,7 @@ on:
 
 jobs:
   deploy:
-    name: deploy  # Job name must be exactly "deploy"
+    name: deploy  # Job name must be exactly  "deploy"
     runs-on: ubuntu-latest
 
     steps:
