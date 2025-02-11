@@ -26,7 +26,7 @@ def test_create_book():
         "genre": "Fantasy",
     }
     response = client.post("/books/", json=new_book)
-    assert response.status_code == 203
+    assert response.status_code == 201
     data = response.json()
     assert data["id"] == 4
     assert data["title"] == "Harry Potter and the Sorcerer's Stone"
