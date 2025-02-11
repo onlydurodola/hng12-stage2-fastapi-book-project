@@ -1,4 +1,7 @@
-from tests import client
+from fastapi.testclient import TestClient
+from main import app  # Ensure you're importing the FastAPI app
+
+client = TestClient(app)
 
 
 def test_get_all_books():
